@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'RestoPro POS',
-        short_name: 'Restopro',
+        short_name: 'RestoPro',
         description: 'POS Gestion Restaurant',
         theme_color: '#ffffff',
         icons: [
