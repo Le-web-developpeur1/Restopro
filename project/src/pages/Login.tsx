@@ -74,20 +74,10 @@ export default function Login() {
 
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          {restaurant?.logo ? (
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-2xl mb-4 overflow-hidden">
-              <img 
-                src={restaurant.logo} 
-                alt={restaurant.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-500 rounded-3xl shadow-2xl shadow-amber-500/30 mb-4">
-              <ChefHat size={40} className="text-white" />
-            </div>
-          )}
-          <h1 className="text-3xl font-bold text-white">{restaurant?.name || 'Resto Singa'}</h1>
+          <div className="inline-flex items-center justify-center rounded-3xl shadow-2xl">
+              <img className='rounded-full w-20 h-20' src="/images/RestoPro.png" alt="Logo Resto Pro" />
+          </div>
+          <h1 className="text-3xl font-bold text-white">{'Resto Pro'}</h1>
           <p className="text-gray-400 mt-1">Système de gestion</p>
         </div>
 
