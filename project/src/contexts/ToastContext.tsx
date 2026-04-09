@@ -28,10 +28,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     
     setToasts(prev => [...prev, newToast]);
 
-    // Auto-remove after 4 seconds
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4000);
+    }, 2000);
   };
 
   const removeToast = (id: string) => {

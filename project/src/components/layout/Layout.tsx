@@ -39,7 +39,7 @@ export default function Layout({ currentPage, onNavigate, children }: LayoutProp
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
-          <span className="font-bold text-gray-900">Resto Iman</span>
+          <span className="font-bold text-gray-900">Resto Singa</span>
         </div>
 
         <main className="flex-1 overflow-y-auto">
