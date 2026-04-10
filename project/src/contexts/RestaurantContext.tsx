@@ -23,6 +23,14 @@ export function RestaurantProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   async function loadRestaurant() {
+    const token = localStorage.getItem('auth_token');
+    
+    // Ne charger que si l'utilisateur est connecté
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const data = await api.getRestaurantInfo();
       setRestaurant(data as RestaurantInfo);
@@ -42,7 +50,29 @@ export function RestaurantProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
+    // Charger au démarrage
     loadRestaurant();
+
+    // Écouter les changements de token (connexion/déconnexion)
+    const handleStorageChange = () => {
+      loadRestaurant();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Écouter aussi les changements locaux du token
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+      originalSetItem.apply(this, [key, value]);
+      if (key === 'auth_token') {
+        loadRestaurant();
+      }
+    };
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      localStorage.setItem = originalSetItem;
+    };
   }, []);
 
   return (

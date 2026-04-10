@@ -54,6 +54,7 @@ export default function Settings() {
       loadRestaurantInfo();
       loadCategories();
     }
+    setLoading(false);
   }, [isAdmin]);
 
   useEffect(() => {
@@ -221,13 +222,76 @@ export default function Settings() {
   }
 
   if (!isAdmin) {
+    // Pour les non-admins, afficher uniquement la section sécurité
     return (
       <div className="p-6">
-        <div className="flex items-center justify-center h-full min-h-96">
-          <div className="text-center">
-            <div className="text-6xl mb-4">🚫</div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Accès refusé</h2>
-            <p className="text-gray-600">Seuls les administrateurs peuvent accéder aux paramètres.</p>
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Paramètres</h1>
+          <p className="text-gray-500 text-sm mt-1">Gérez votre mot de passe</p>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 max-w-2xl">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+              <Lock size={24} className="text-red-600" />
+            </div>
+            <div>
+              <h2 className="font-semibold text-gray-900">Sécurité</h2>
+              <p className="text-sm text-gray-500">Changez votre mot de passe</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+              <p className="text-sm text-amber-800">
+                <strong>Conseil :</strong> Utilisez un mot de passe fort avec au moins 6 caractères.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Mot de passe actuel *
+              </label>
+              <input
+                type="password"
+                value={securityData.current_password}
+                onChange={(e) => setSecurityData({ ...securityData, current_password: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Nouveau mot de passe *
+              </label>
+              <input
+                type="password"
+                value={securityData.new_password}
+                onChange={(e) => setSecurityData({ ...securityData, new_password: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Confirmer le nouveau mot de passe *
+              </label>
+              <input
+                type="password"
+                value={securityData.confirm_password}
+                onChange={(e) => setSecurityData({ ...securityData, confirm_password: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-amber-500"
+              />
+            </div>
+
+            <button
+              onClick={handleChangePassword}
+              disabled={saving || !securityData.current_password || !securityData.new_password}
+              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              <Lock size={18} />
+              {saving ? 'Changement...' : 'Changer le mot de passe'}
+            </button>
           </div>
         </div>
       </div>

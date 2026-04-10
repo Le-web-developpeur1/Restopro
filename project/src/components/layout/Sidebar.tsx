@@ -11,11 +11,11 @@ interface SidebarProps {
 
 const navItems: { id: Page; label: string; icon: typeof LayoutDashboard; roles: string[] }[] = [
   { id: 'dashboard', label: 'Tableau de bord', icon: LayoutDashboard, roles: ['admin'] },
-  { id: 'pos', label: 'Caisse / POS', icon: ShoppingCart, roles: ['admin', 'caissier'] },
+  { id: 'pos', label: 'Caisse / POS', icon: ShoppingCart, roles: ['admin', 'caissier', 'serveur'] },
   { id: 'menu', label: 'Menu', icon: UtensilsCrossed, roles: ['admin'] },
   { id: 'history', label: 'Historique', icon: History, roles: ['admin', 'caissier'] },
   { id: 'users', label: 'Utilisateurs', icon: Users, roles: ['admin'] },
-  { id: 'settings', label: 'Paramètres', icon: Settings, roles: ['admin'] },
+  { id: 'settings', label: 'Paramètres', icon: Settings, roles: ['admin', 'caissier', 'serveur'] },
 ];
 
 export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {

@@ -209,27 +209,59 @@ export default function History() {
         ) : (
           <div className="space-y-3">
             {filteredOrders.map((order) => (
-              <div key={order.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
-                <div>
-                  <div className="font-semibold text-gray-900">{order.order_number}</div>
-                  <div className="text-sm text-gray-500">{formatDate(order.created_at || order.createdAt || '')}</div>
-                  {order.table_number && (
-                    <div className="text-xs text-gray-400 mt-1">Table: {order.table_number}</div>
-                  )}
-                  {order.payment_method && (
-                    <div className="text-xs text-gray-400">{getPaymentLabel(order.payment_method)}</div>
-                  )}
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-gray-900">{formatCurrency(order.total)}</div>
-                  <div className={`text-xs mt-1 px-2 py-1 rounded-full inline-block ${
-                    order.status === 'completed' ? 'bg-green-100 text-green-700' :
-                    order.status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
-                  }`}>
-                    {order.status === 'completed' ? 'Complétée' :
-                     order.status === 'cancelled' ? 'Annulée' : 'En attente'}
+              <div key={order.id} className="border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between p-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="font-semibold text-gray-900">{order.order_number}</div>
+                      <div className={`text-xs px-2 py-1 rounded-full ${
+                        order.status === 'completed' ? 'bg-green-100 text-green-700' :
+                        order.status === 'cancelled' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                      }`}>
+                        {order.status === 'completed' ? 'Complétée' :
+                         order.status === 'cancelled' ? 'Annulée' : 'En attente'}
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-500">{formatDate(order.created_at || order.createdAt || '')}</div>
+                    <div className="flex items-center gap-4 mt-1">
+                      {order.table_number && (
+                        <div className="text-xs text-gray-400">Table: {order.table_number}</div>
+                      )}
+                      {order.payment_method && (
+                        <div className="text-xs text-gray-400">{getPaymentLabel(order.payment_method)}</div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-gray-900 text-lg">{formatCurrency(order.total)}</div>
+                    {order.order_items && order.order_items.length > 0 && (
+                      <div className="text-xs text-gray-500 mt-1">
+                        {order.order_items.length} article(s)
+                      </div>
+                    )}
                   </div>
                 </div>
+                
+                {/* Liste des produits */}
+                {order.order_items && order.order_items.length > 0 && (
+                  <div className="border-t border-gray-200 px-4 py-3 bg-gray-50">
+                    <div className="text-xs font-medium text-gray-600 mb-2">Produits vendus :</div>
+                    <div className="space-y-1">
+                      {order.order_items.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between text-sm">
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-600">{item.quantity}x</span>
+                            <span className="text-gray-900">{item.product_name}</span>
+                            {item.notes && (
+                              <span className="text-xs text-gray-500 italic">({item.notes})</span>
+                            )}
+                          </div>
+                          <span className="text-gray-700 font-medium">{formatCurrency(item.subtotal)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
